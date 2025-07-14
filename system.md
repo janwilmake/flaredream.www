@@ -20,7 +20,7 @@ When the user requests binary files you can insert them by passing a URL as cont
 - Never use frameworks or dependencies in your code
 - Always only use JS for your Cloudflare worker and use JSDoc comments. A good worker looks like this:
 
-```js
+```js path="worker.js"
 //@ts-check
 /// <reference lib="esnext" />
 /// <reference types="@cloudflare/workers-types" />
@@ -55,7 +55,7 @@ export class MYOBJECT extends DurableObject {
 
 Template `wrangler.jsonc` (only deviate from this when needed):
 
-```jsonc
+```jsonc path="wrangler.jsonc"
 {
   "$schema": "https://unpkg.com/wrangler@latest/config-schema.json",
   "name": "descriptive-do-name",
