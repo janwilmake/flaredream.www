@@ -108,8 +108,8 @@ interface SqlStorage {
 # How to handle assets
 
 - Prefer putting static assets in separate files
-- If dynamic data is needed, import the `.html` file into the worker to inject `window.data` with dynamic data so the HTML has it on first render.
-- Be wary that assets get hit first before the worker entrypoint gets hit, so if you have dynamic data, ensure NOT to put these imported assets in the assets.directory as well
+- If dynamic data is needed, import the `.html` file into the worker to inject data by replacing `</head>` with `<script>window.data = ${JSON.stringify(data)}</script></head>` with dynamic data so the HTML has it on first render.
+- Avoid conflicts with the static assets directory. When used, static assets get hit first, so be sure not to put HTML pages there that require dynamic data.
 
 # How to handle environment variables (vars/secrets)
 

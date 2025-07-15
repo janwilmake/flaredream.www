@@ -25,7 +25,6 @@
     <meta name="twitter:title" content="The better way to ship - Flaredream" />
     <meta name="twitter:description" content="Dream it. Prompt it. Ship it. Manage Cloudflare with AI assistance." />
     <meta name="twitter:image" content="https://quickog.com/screenshot/flaredream.com" />
-
     <style>
         * {
             margin: 0;
@@ -39,6 +38,120 @@
             min-height: 100vh;
             overflow-x: hidden;
             color: #ffffff;
+            padding-top: 60px;
+        }
+
+        /* Header */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 60px;
+            background: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 107, 53, 0.2);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 2rem;
+        }
+
+        .header-logo {
+            font-size: 1.2rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #ff6b35, #f7931e);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-decoration: none;
+        }
+
+        .header-nav {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .nav-link {
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+        }
+
+        .nav-link:hover {
+            color: #ff6b35;
+            background: rgba(255, 107, 53, 0.1);
+        }
+
+        .nav-link.active {
+            color: #ff6b35;
+            background: rgba(255, 107, 53, 0.1);
+        }
+
+        .nav-cta {
+            background: linear-gradient(135deg, #ff6b35, #f7931e);
+            color: #ffffff !important;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .nav-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(255, 107, 53, 0.4);
+            background: linear-gradient(135deg, #f7931e, #ff6b35);
+        }
+
+        /* Mobile menu */
+        .mobile-menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: #ffffff;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+
+        .mobile-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(20px);
+            border-top: 1px solid rgba(255, 107, 53, 0.2);
+            padding: 1rem;
+        }
+
+        .mobile-menu.open {
+            display: block;
+        }
+
+        .mobile-nav-link {
+            display: block;
+            padding: 1rem;
+            color: #ffffff;
+            text-decoration: none;
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 107, 53, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .mobile-nav-link:last-child {
+            border-bottom: none;
+        }
+
+        .mobile-nav-link:hover {
+            background: rgba(255, 107, 53, 0.1);
+            color: #ff6b35;
         }
 
         /* Animated background particles */
@@ -84,13 +197,7 @@
             padding: 2rem;
         }
 
-        /* Header */
-        .header {
-            text-align: center;
-            margin-bottom: 3rem;
-            padding-top: 2rem;
-        }
-
+        /* Hero Header */
         .header h1 {
             font-size: 2rem;
             font-weight: 700;
@@ -372,6 +479,18 @@
 
         /* Responsive */
         @media (max-width: 768px) {
+            .header {
+                padding: 0 1rem;
+            }
+
+            .header-nav {
+                display: none;
+            }
+
+            .mobile-menu-toggle {
+                display: block;
+            }
+
             .container {
                 padding: 1rem;
             }
@@ -406,18 +525,23 @@
 </head>
 
 <body>
+    <header class="header">
+        <a href="/" class="header-logo">Flaredream</a>
+        <nav class="header-nav">
+            <a href="/" class="nav-link">Home</a>
+            <a href="/pricing" class="nav-link">Pricing</a>
+            <a href="#hero" class="nav-link nav-cta">Start Dreaming</a>
+        </nav>
+        <button class="mobile-menu-toggle" onclick="toggleMobileMenu()">☰</button>
+        <div class="mobile-menu" id="mobile-menu">
+            <a href="/" class="mobile-nav-link">Home</a>
+            <a href="/pricing" class="mobile-nav-link">Pricing</a>
+            <a href="#hero" class="mobile-nav-link nav-cta">Start Dreaming</a>
+        </div>
+    </header>
     <div class="particles" id="particles"></div>
 
     <div class="container">
-        <div class="header">
-            <h1>Flaredream</h1>
-            <p>The better way to ship</p>
-            <div class="tagline">
-                <span class="line">Dream It</span>
-                <span class="line">Prompt It</span>
-                <span class="line">Ship It</span>
-            </div>
-        </div>
 
         <div class="prompt-section">
             <div class="prompt-controls">
@@ -459,106 +583,47 @@
                 "description": "A basic note-taking app with create, edit, and delete functionality. Notes are saved automatically with timestamps. Includes search functionality and note categorization.",
                 "integrations": ["Durable Objects + SQLite"]
             },
-            {
-                "slug": "password",
-                "name": "Password Generator",
-                "description": "A secure password generator with customizable length and character sets. Includes password strength validation and generation history. Features batch generation and copy-to-clipboard functionality.",
-                "integrations": ["Durable Objects + SQLite"]
-            },
-            {
-                "slug": "qr",
-                "name": "QR Code Generator",
-                "description": "A simple tool to generate QR codes for URLs, text, or contact information. Users can customize QR code size and download generated codes. Includes usage tracking and generation history.",
-                "integrations": ["Durable Objects + SQLite"]
-            },
+
+
             {
                 "slug": "short",
                 "name": "Link Shortener",
                 "description": "A URL shortening service with click analytics. Users can create short links, track clicks, and view basic statistics. Includes link expiration and custom aliases.",
                 "integrations": ["Durable Objects + SQLite"]
             },
+
             {
                 "slug": "poll",
                 "name": "Simple Poll System",
                 "description": "A voting and polling system with real-time results. Users can create polls, collect votes, and view analytics. Includes poll expiration and result visualization with charts.",
                 "integrations": ["Durable Objects + SQLite"]
             },
+
             {
                 "slug": "guest",
                 "name": "Simple Guestbook",
                 "description": "A digital guestbook with message posting and viewing. Visitors can leave messages with timestamps and view previous entries. Includes basic moderation and message filtering.",
                 "integrations": ["Durable Objects + SQLite"]
             },
+
             {
                 "slug": "feedback",
                 "name": "Anonymous Feedback Box",
                 "description": "A feedback collection system with anonymous submissions. Users can submit feedback, rate experiences, and provide suggestions. Includes feedback categorization and basic analytics.",
                 "integrations": ["Durable Objects + SQLite"]
             },
+
             {
                 "slug": "colors",
                 "name": "Color Palette Generator",
                 "description": "A tool for generating color palettes for design projects. Users can create palettes, generate complementary colors, and export in various formats. Includes palette history and favorites.",
                 "integrations": ["Durable Objects + SQLite"]
             },
-            {
-                "slug": "habits",
-                "name": "Habit Tracker",
-                "description": "A simple habit tracking app with streak counting and progress visualization. Users can create habits, mark daily completions, and view progress charts. Includes milestone tracking.",
-                "integrations": ["Durable Objects + SQLite"]
-            },
-            {
-                "slug": "expense",
-                "name": "Simple Expense Tracker",
-                "description": "A personal expense tracking app with category management and basic reporting. Users can log expenses, categorize spending, and view monthly summaries with charts.",
-                "integrations": ["Durable Objects + SQLite"]
-            },
-            {
-                "slug": "timer",
-                "name": "Pomodoro Timer",
-                "description": "A productivity timer with work/break intervals and session tracking. Includes customizable time periods, session history, and productivity statistics with visual progress.",
-                "integrations": ["Durable Objects + SQLite"]
-            },
-            {
-                "slug": "calc",
-                "name": "Advanced Calculator",
-                "description": "A scientific calculator with history and memory functions. Includes basic arithmetic, advanced operations, and calculation history. Features memory storage and export functionality.",
-                "integrations": ["Durable Objects + SQLite"]
-            },
-            {
-                "slug": "weather",
-                "name": "Weather Display",
-                "description": "A weather information display using IP geolocation for automatic location detection. Shows current conditions and forecast with cached data for performance.",
-                "integrations": ["Durable Objects + SQLite"]
-            },
-            {
-                "slug": "quotes",
-                "name": "Daily Quote Generator",
-                "description": "A daily inspirational quote generator with categorization and favorites. Users can browse quotes by category, mark favorites, and share quotes. Includes quote submission functionality.",
-                "integrations": ["Durable Objects + SQLite"]
-            },
+
             {
                 "slug": "markdown",
                 "name": "Markdown Editor",
                 "description": "A simple markdown editor with live preview and document saving. Users can write markdown, see real-time preview, and save documents. Includes syntax highlighting and export options.",
-                "integrations": ["Durable Objects + SQLite"]
-            },
-            {
-                "slug": "analytics",
-                "name": "Simple Analytics Dashboard",
-                "description": "A basic analytics dashboard for tracking page views and user interactions. Shows visitor statistics, popular pages, and usage patterns with charts and graphs.",
-                "integrations": ["Durable Objects + SQLite"]
-            },
-            {
-                "slug": "bookmarks",
-                "name": "Bookmark Manager",
-                "description": "A personal bookmark manager with categorization and search. Users can save URLs, organize by categories, and search bookmarks. Includes import/export functionality.",
-                "integrations": ["Durable Objects + SQLite"]
-            },
-            {
-                "slug": "journal",
-                "name": "Simple Journal",
-                "description": "A personal journaling app with daily entries and mood tracking. Users can write entries, track moods, and view entry history with search functionality.",
                 "integrations": ["Durable Objects + SQLite"]
             }
         ];
